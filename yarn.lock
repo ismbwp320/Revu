@@ -3063,6 +3063,18 @@
   dependencies:
     tslib "^2.8.0"
 
+"@tanstack/query-core@5.85.6":
+  version "5.85.6"
+  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.85.6.tgz"
+  integrity sha512-hCj0TktzdCv2bCepIdfwqVwUVWb+GSHm1Jnn8w+40lfhQ3m7lCO7ADRUJy+2unxQ/nzjh2ipC6ye69NDW3l73g==
+
+"@tanstack/react-query@^5.85.6":
+  version "5.85.6"
+  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.85.6.tgz"
+  integrity sha512-VUAag4ERjh+qlmg0wNivQIVCZUrYndqYu3/wPCVZd4r0E+1IqotbeyGTc+ICroL/PqbpSaGZg02zSWYfcvxbdA==
+  dependencies:
+    "@tanstack/query-core" "5.85.6"
+
 "@tootallnate/once@2":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz"
@@ -4636,6 +4648,11 @@ expo-router@~5.1.4:
     semver "~7.6.3"
     server-only "^0.0.1"
     shallowequal "^1.1.0"
+
+expo-secure-store@^14.2.3:
+  version "14.2.3"
+  resolved "https://registry.npmjs.org/expo-secure-store/-/expo-secure-store-14.2.3.tgz"
+  integrity sha512-hYBbaAD70asKTFd/eZBKVu+9RTo9OSTMMLqXtzDF8ndUGjpc6tmRCoZtrMHlUo7qLtwL5jm+vpYVBWI8hxh/1Q==
 
 expo-splash-screen@~0.30.8:
   version "0.30.10"
