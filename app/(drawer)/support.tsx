@@ -1,0 +1,10 @@
+import { Text, View } from "react-native";
+const Page = () => {
+  return (
+    <View>
+      <Text>Support Page</Text>
+    </View>
+  )
+}
+
+export default Page;
