@@ -1,8 +1,9 @@
+import ProfilePage from "@/components/ProfilePage";
 import { Text, View } from "react-native";
 const Profile = () => {
   return (
     <View>
-      <Text>Profile Page</Text>
+      <ProfilePage isActive={true} />
     </View>
   )
 }
