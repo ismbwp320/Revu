@@ -28,77 +28,79 @@ const categories = [
 //   return res.json();
 // }
 
-  async function fetchPosts(filters: {
-  rating?: string;
-  schools?: string;
-  country?: string;
-  state?: string;
-  categoryId?: string;
-}) {
-  const baseUrl = "https://app.ed-cred.com/school/employees";
-
-  const params = new URLSearchParams();
-
-  if (filters.country) params.append("country", filters.country);
-  if (filters.state) params.append("state", filters.state);
-  if (filters.schools) params.append("school", filters.schools); // backend expects `school`
-  if (filters.rating) params.append("rating", filters.rating);
-  if (filters.categoryId) params.append("categoryId", filters.categoryId);
-
-  const url = `${baseUrl}?${params.toString()}`;
-
-  console.log("Fetching:", url);
-
-  const res = await fetch(url);
-  return res.json();
-}
-// async function fetchPosts(filters: {
-//   rating?: string | null;
-//   schools?: string | string[] | null;
-//   country?: string | null;
-//   state?: string | null;
-//   categoryId?: string | null;
+//   async function fetchPosts(filters: {
+//   rating?: string;
+//   schools?: string;
+//   country?: string;
+//   state?: string;
+//   categoryId?: string;
 // }) {
 //   const baseUrl = "https://app.ed-cred.com/school/employees";
+
 //   const params = new URLSearchParams();
 
-//   if (filters.country && filters.country.trim() !== "") {
-//     params.append("country", filters.country);
-//   }
+  // if (filters.country) params.append("country", filters.country);
+  // if (filters.state) params.append("state", filters.state);
+  // if (filters.schools) params.append("school", filters.schools); // backend expects `school`
+  // if (filters.rating) params.append("rating", filters.rating);
+  // if (filters.categoryId) params.append("categoryId", filters.categoryId);
 
-//   if (filters.state && filters.state.trim() !== "") {
-//     params.append("state", filters.state);
-//   }
-
-//   if (filters.schools) {
-//     if (Array.isArray(filters.schools)) {
-//       filters.schools.forEach((school) => {
-//         if (school.trim() !== "") params.append("school", school);
-//       });
-//     } else if (filters.schools.trim() !== "") {
-//       params.append("school", filters.schools);
-//     }
-//   }
-
-//   if (filters.rating && filters.rating.trim() !== "") {
-//     params.append("rating", filters.rating);
-//   }
-
-//   if (filters.categoryId && filters.categoryId.trim() !== "") {
-//     params.append("categoryId", filters.categoryId);
-//   }
-
-//   const url =
-//     params.toString().length > 0 ? `${baseUrl}?${params.toString()}` : baseUrl;
+//   const url = `${baseUrl}?${params.toString()}`;
 
 //   console.log("Fetching:", url);
 
 //   const res = await fetch(url);
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch data");
-//   }
 //   return res.json();
 // }
+
+// Working
+async function fetchPosts(filters: {
+  rating?: string | null;
+  schools?: string | string[] | null;
+  country?: string | null;
+  state?: string | null;
+  categoryId?: string | null;
+}) {
+  const baseUrl = "https://app.ed-cred.com/school/employees";
+  const params = new URLSearchParams();
+
+  if (filters.country && filters.country.trim() !== "") {
+    params.append("country", filters.country);
+  }
+
+  if (filters.state && filters.state.trim() !== "") {
+    params.append("state", filters.state);
+  }
+
+  if (filters.schools) {
+    if (Array.isArray(filters.schools)) {
+      filters.schools.forEach((school) => {
+        if (school.trim() !== "") params.append("school", school);
+      });
+    } else if (filters.schools.trim() !== "") {
+      params.append("school", filters.schools);
+    }
+  }
+
+  if (filters.rating && filters.rating.trim() !== "") {
+    params.append("rating", filters.rating);
+  }
+
+  if (filters.categoryId && filters.categoryId.trim() !== "") {
+    params.append("categoryId", filters.categoryId);
+  }
+
+  const url =
+    params.toString().length > 0 ? `${baseUrl}?${params.toString()}` : baseUrl;
+
+  console.log("Fetching:", url);
+
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  return res.json();
+}
 
 
 export default function Feed() {

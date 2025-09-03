@@ -41,21 +41,53 @@ const Sidebar = () => {
 
   const router = useRouter();
 
-  const applyFilters = () => {
-    // Collect filters
-    const filters = {
-      rating: selectedRating,
-      schools: selectedSchools.join(","), // convert array to CSV
-      country,
-      state,
-    };
+  // const applyFilters = () => {
+  //   // Collect filters
+  //   const filters = {
+  //     rating: selectedRating,
+  //     schools: selectedSchools.join(","), // convert array to CSV
+  //     country,
+  //     state,
+  //   };
 
-    // Push to Feed with filters in query params
-    router.push({
-      pathname: "/feed",
-      params: filters,
-    });
-  };
+  //   console.log("filters: ", filters);
+    
+  //   // Push to Feed with filters in query params
+  //   router.push({
+  //     pathname: "/feed",
+  //     params: filters,
+  //   });
+  // };
+
+  const applyFilters = () => {
+  const filters: Record<string, string> = {};
+
+  if (selectedRating) {
+    filters.rating = selectedRating.toString();
+  }
+
+  if (selectedSchools.length > 0) {
+    filters.schools = selectedSchools.join(",");
+  }
+
+  if (country && country.trim() !== "") {
+    filters.country = country;
+  }
+
+  if (state && state.trim() !== "") {
+    filters.state = state;
+  }
+
+  console.log("filters: ", filters);
+
+  router.push({
+    pathname: "/feed",
+    params: filters,
+  });
+};
+
+
+
 
   const resetFilters = () => {
     setSelectedRating(null);
