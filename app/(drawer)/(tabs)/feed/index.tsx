@@ -39,11 +39,11 @@ const categories = [
 
 //   const params = new URLSearchParams();
 
-  // if (filters.country) params.append("country", filters.country);
-  // if (filters.state) params.append("state", filters.state);
-  // if (filters.schools) params.append("school", filters.schools); // backend expects `school`
-  // if (filters.rating) params.append("rating", filters.rating);
-  // if (filters.categoryId) params.append("categoryId", filters.categoryId);
+// if (filters.country) params.append("country", filters.country);
+// if (filters.state) params.append("state", filters.state);
+// if (filters.schools) params.append("school", filters.schools); // backend expects `school`
+// if (filters.rating) params.append("rating", filters.rating);
+// if (filters.categoryId) params.append("categoryId", filters.categoryId);
 
 //   const url = `${baseUrl}?${params.toString()}`;
 
@@ -54,23 +54,67 @@ const categories = [
 // }
 
 // Working
+// async function fetchPosts(filters: {
+//   rating?: string | null;
+//   schools?: string | string[] | null;
+//   country?: string | null;
+//   state?: string | null;
+//   categoryId?: string | null;
+// }) {
+//   const baseUrl = "https://app.ed-cred.com/school/employees";
+//   const params = new URLSearchParams();
+
+//   if (filters.country && filters.country.trim() !== "") {
+//     params.append("country", filters.country);
+//   }
+
+//   if (filters.state && filters.state.trim() !== "") {
+//     params.append("state", filters.state);
+//   }
+
+//   if (filters.schools) {
+//     if (Array.isArray(filters.schools)) {
+//       filters.schools.forEach((school) => {
+//         if (school.trim() !== "") params.append("school", school);
+//       });
+//     } else if (filters.schools.trim() !== "") {
+//       params.append("school", filters.schools);
+//     }
+//   }
+
+//   if (filters.rating && filters.rating.trim() !== "") {
+//     params.append("rating", filters.rating);
+//   }
+
+//   if (filters.categoryId && filters.categoryId.trim() !== "") {
+//     params.append("categoryId", filters.categoryId);
+//   }
+
+//   const url =
+//     params.toString().length > 0 ? `${baseUrl}?${params.toString()}` : baseUrl;
+
+//   console.log("Fetching:", url);
+
+//   const res = await fetch(url);
+//   if (!res.ok) {
+//     throw new Error("Failed to fetch data");
+//   }
+//   return res.json();
+// }
+
 async function fetchPosts(filters: {
   rating?: string | null;
   schools?: string | string[] | null;
   country?: string | null;
   state?: string | null;
   categoryId?: string | null;
+  page?: number;
 }) {
   const baseUrl = "https://app.ed-cred.com/school/employees";
   const params = new URLSearchParams();
 
-  if (filters.country && filters.country.trim() !== "") {
-    params.append("country", filters.country);
-  }
-
-  if (filters.state && filters.state.trim() !== "") {
-    params.append("state", filters.state);
-  }
+  if (filters.country?.trim()) params.append("country", filters.country);
+  if (filters.state?.trim()) params.append("state", filters.state);
 
   if (filters.schools) {
     if (Array.isArray(filters.schools)) {
@@ -82,37 +126,29 @@ async function fetchPosts(filters: {
     }
   }
 
-  if (filters.rating && filters.rating.trim() !== "") {
-    params.append("rating", filters.rating);
-  }
+  if (filters.rating?.trim()) params.append("rating", filters.rating);
+  if (filters.categoryId?.trim()) params.append("categoryId", filters.categoryId);
 
-  if (filters.categoryId && filters.categoryId.trim() !== "") {
-    params.append("categoryId", filters.categoryId);
-  }
+  // ✅ Add page param (default to 1)
+  params.append("page", filters.page?.toString() || "1");
 
-  const url =
-    params.toString().length > 0 ? `${baseUrl}?${params.toString()}` : baseUrl;
-
+  const url = `${baseUrl}?${params.toString()}`;
   console.log("Fetching:", url);
 
   const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+  if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 }
 
 
+
 export default function Feed() {
   const router = useRouter();
-  // const { id } = useLocalSearchParams();
   const glob = useGlobalSearchParams();
-  // const params = useLocalSearchParams();
   const [activeFilter, setActiveFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
-    // const [modalVisible, setModalVisible] = useState<Boolean>(false);
   const [actionsheetVisible, setActionsheetVisible] = React.useState(false);
-
+  const [page, setPage] = useState(1);
 
   const params = useLocalSearchParams<{
     rating?: string;
@@ -125,10 +161,18 @@ export default function Feed() {
   const { rating, schools, country, state, categoryId } = params;
 
   const { data: reviews, error, isLoading } = useQuery({
-    queryKey: ["posts", { rating, schools, country, state, categoryId }],
+    queryKey: ["posts", { rating, schools, country, state, categoryId, page }],
     queryFn: () =>
-      fetchPosts({ rating, schools, country, state, categoryId }),
+      fetchPosts({ rating, schools, country, state, categoryId, page }),
+    // keepPreviousData: true, // ✅ prevents UI flicker when changing page
   });
+
+  const employees = reviews?.employees ?? [];
+  const totalPages = reviews?.total ?? 1;
+  const pageSize = reviews?.pageSize ?? employees.length;
+
+  const lastPage = totalPages/pageSize;
+
 
   const handleClick = (category: any) => {
     setActiveFilter(category.name.toLowerCase());
@@ -148,13 +192,7 @@ export default function Feed() {
       params: newParams,
     });
   };
-
-  // const { data: reviews, error, isLoading } = useQuery({
-  //   queryKey: ["posts", params.categoryId],
-  //   queryFn: () => fetchPosts(params.categoryId),
-  // });
-
-  const employees = reviews?.employees ?? [];
+   
 
   // Apply sorting
   const sortedEmployees = [...employees].sort((a, b) => {
@@ -189,7 +227,7 @@ export default function Feed() {
           <Search size={20} color="#6B7280" />
           <TextInput
             placeholder="Search institutions, programs..."
-            className="flex-1 ml-3 text-gray-900"
+            className="flex-1 ml-3 text-gray-900 focus:outline-none"
           />
 
           {/* <ArrowDown01 color="#6B7280" size={20} className='mr-2' /> */}
@@ -198,7 +236,7 @@ export default function Feed() {
               sortOrder === "asc" ? (
                 <ArrowDown01 color={sortOrder === "asc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
               ) : (
-                <ArrowDown10  color={sortOrder === "desc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
+                <ArrowDown10 color={sortOrder === "desc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
               )
             }
           </TouchableOpacity>
@@ -207,17 +245,18 @@ export default function Feed() {
             <Filter
               size={20}
               color="#6B7280"
-              onPress={() => {  setActionsheetVisible(true);
+              onPress={() => {
+                setActionsheetVisible(true);
                 // router.push('./filter');
 
               }}
             />
           </TouchableOpacity>
         </View>
-           <MobileSidebarActionsheet
-        actionsheetVisible={actionsheetVisible}
-        setActionsheetVisible={setActionsheetVisible}
-      />
+        <MobileSidebarActionsheet
+          actionsheetVisible={actionsheetVisible}
+          setActionsheetVisible={setActionsheetVisible}
+        />
 
         {/* Quick Filters */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="max-h-24">
@@ -254,9 +293,6 @@ export default function Feed() {
         <View className="mb-6">
           <View className="flex-row items-center justify-between mb-3">
             <Text className="text-gray-900 text-lg font-bold">Recent Reviews</Text>
-            <TouchableOpacity>
-              <Text className="text-indigo-600 font-medium">See all</Text>
-            </TouchableOpacity>
           </View>
           {/* {JSON.stringify(review)} */}
           {
@@ -264,6 +300,26 @@ export default function Feed() {
               <ReviewCard review={review} />
             ))
           }
+          {/* Pagination Buttons */}
+          <View className="flex-row justify-between items-center mt-4">
+            <TouchableOpacity
+              disabled={page === 1}
+              onPress={() => setPage((prev) => Math.max(prev - 1, 1))}
+              className={`px-4 py-2 rounded-lg ${page === 1 ? "bg-gray-300" : "bg-indigo-600"}`}
+            >
+              <Text className="text-white font-medium">Previous</Text>
+            </TouchableOpacity>
+
+            <Text className="text-gray-800 font-semibold">Page {page}</Text>
+
+            <TouchableOpacity
+            disabled={page >= lastPage}
+              onPress={() => setPage((prev) => prev + 1)}
+              className={`px-4 py-2 rounded-lg ${page >= lastPage ? "bg-gray-300" : "bg-indigo-600"}`}
+            >
+              <Text className="text-white font-medium">Next</Text>
+            </TouchableOpacity>
+          </View>
 
         </View>
       </ScrollView>
