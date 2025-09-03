@@ -22,6 +22,7 @@
     "@gorhom/bottom-sheet": "^5.0.0-alpha.11",
     "@legendapp/motion": "^2.4.0",
     "@react-aria/utils": "^3.29.0",
+    "@react-native-picker/picker": "^2.11.1",
     "@react-navigation/bottom-tabs": "^7.4.7",
     "@react-navigation/drawer": "^7.5.8",
     "@react-navigation/elements": "^2.6.4",

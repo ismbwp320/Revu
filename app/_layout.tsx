@@ -11,7 +11,7 @@ export default function RootLayout() {
   return (
   <QueryProvider>
     <GluestackUIProvider mode="light">
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={{ flex: 1, marginBottom: 34 }}>
         <Stack>
           {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
           <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
