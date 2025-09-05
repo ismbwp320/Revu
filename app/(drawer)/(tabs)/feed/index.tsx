@@ -234,9 +234,9 @@ export default function Feed() {
           <TouchableOpacity onPress={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")} >
             {
               sortOrder === "asc" ? (
-                <ArrowDown01 color={sortOrder === "asc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
+                    <ArrowDown10 color={sortOrder === "asc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
               ) : (
-                <ArrowDown10 color={sortOrder === "desc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
+                <ArrowDown01 color={sortOrder === "desc" ? "#4F46E5" : "#6B7280"} size={20} className="mr-2" />
               )
             }
           </TouchableOpacity>
@@ -297,7 +297,7 @@ export default function Feed() {
           {/* {JSON.stringify(review)} */}
           {
             sortedEmployees.map((review: any) => (
-              <ReviewCard review={review} />
+              <ReviewCard key={review.id} review={review} />
             ))
           }
           {/* Pagination Buttons */}

@@ -3,6 +3,8 @@ import { useLocalSearchParams } from "expo-router/build/hooks";
 import { Text, View } from "react-native";
 const DiscussionDetails = () => {
     const { id } = useLocalSearchParams();
+    
+    
   return (
     <>
     <Stack.Screen options={{ title: `Discussion Details ${id}` }} />
@@ -13,4 +15,4 @@ const DiscussionDetails = () => {
   )
 }
 
-export default DiscussionDetails;
+export default DiscussionDetails; 

@@ -5,11 +5,13 @@ import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import '@/global.css';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import QueryProvider from '@/components/QueryProvider';
+import { AuthProvider } from '@/context/AuthContext';
 
 
 export default function RootLayout() {
   return (
   <QueryProvider>
+    <AuthProvider>
     <GluestackUIProvider mode="light">
       <GestureHandlerRootView style={{ flex: 1, marginBottom: 34 }}>
         <Stack>
@@ -18,6 +20,7 @@ export default function RootLayout() {
         </Stack>
       </GestureHandlerRootView>
     </GluestackUIProvider>
+    </AuthProvider>
   </QueryProvider>
   );
 }

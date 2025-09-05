@@ -20,6 +20,9 @@ import { Icon } from "./ui/icon";
 import { Link, LinkText } from "./ui/link";
 import { Text } from "./ui/text";
 import { VStack } from "./ui/vstack";
+import { useRouter } from "expo-router";
+import { useAuth } from "@/context/AuthContext";
+// import { logout } from "@/lib/secureStore";
 
 const ProfilePage = ({ isActive }: any) => {
   const [openLogoutAlertDialog, setOpenLogoutAlertDialog] =
@@ -158,16 +161,30 @@ const SupportSection = () => {
 };
 
 const LogoutButton = ({ setOpenLogoutAlertDialog }: any) => {
+  const router = useRouter();
+
+ const {logout} = useAuth()
+  const handleLogout = async () => {
+    await logout();
+    console.log("Logout Button");
+    router.push("/(drawer)/(tabs)"); // 👈 replace so user can’t go back
+  };
   return (
+    <>
     <Button
       action="secondary"
       variant="outline"
-      onPress={() => {
-        setOpenLogoutAlertDialog(true);
-      }}
+      // onPress={() => {
+      //   setOpenLogoutAlertDialog(true);
+      // }}
+      onPress={handleLogout}
     >
       <ButtonText>Logout</ButtonText>
     </Button>
+    {/* <Button onPress={handleLogout} className="bg-red-500 mt-4">
+      <ButtonText>Logout</ButtonText>
+    </Button> */}
+    </>
   );
 };
 
