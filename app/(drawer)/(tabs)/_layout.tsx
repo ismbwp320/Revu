@@ -152,7 +152,7 @@ const Layout = () => {
 
   //  const isLoggedIn = auth
    const { user, logout, isLoading, login, session } = useAuth();
-    const isLoggedIn = true; 
+    // const isLoggedIn = true; 
   const router = useRouter();
     const [showDialog, setShowDialog] = useState(false);
 
@@ -204,7 +204,7 @@ const Layout = () => {
         }} 
         listeners={({ navigation }) => ({
             tabPress: (e) => {
-              if (!isLoggedIn) {
+              if (!user) {
                 e.preventDefault(); // stops default navigation
                 console.log("User not logged in, redirecting to login page");
                 setShowDialog(true);
@@ -225,7 +225,7 @@ const Layout = () => {
         }} 
           listeners={({ navigation }) => ({
             tabPress: (e) => {
-              if (!isLoggedIn) {
+              if (!user) {
                 e.preventDefault(); // stops default navigation
                 console.log("User not logged in, redirecting to login page");
                 setShowDialog(true);
