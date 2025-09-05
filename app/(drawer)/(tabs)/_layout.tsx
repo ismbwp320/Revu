@@ -81,6 +81,8 @@ import {
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import SignInModal from "@/app/(modals)/sign-in";
+import { useAuth } from "@/context/AuthContext";
 
 const Header =  function () {
   const router = useRouter();
@@ -102,7 +104,6 @@ const Header =  function () {
           <Users size={24} color="white" />
         </TouchableOpacity>
       </View>
-
       {/* Search Bar */}
       <View className="flex-row items-center bg-white rounded-xl px-4 py-3 mb-4">
         <Search size={20} color="#6B7280" />
@@ -147,7 +148,19 @@ const Header =  function () {
 
 
 const Layout = () => {
+    // const { isLoggedIn } = useAuth();
+
+  //  const isLoggedIn = auth
+   const { user, logout, isLoading, login, session } = useAuth();
+    const isLoggedIn = true; 
+  const router = useRouter();
+    const [showDialog, setShowDialog] = useState(false);
+
   return (
+    <>    <SignInModal isOpen={showDialog}         onClose={() => {
+          console.log("SignInModal closed ✅");
+          setShowDialog(false);
+        }} />
     <Tabs
       screenOptions={{
         headerLeft: () => <DrawerToggleButton />,
@@ -189,6 +202,19 @@ const Layout = () => {
           title: "Discussions", 
           tabBarIcon: ({ color, size }) => <MessageCircle color={color} size={size} /> 
         }} 
+        listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              if (!isLoggedIn) {
+                e.preventDefault(); // stops default navigation
+                console.log("User not logged in, redirecting to login page");
+                setShowDialog(true);
+                return; // or any other screen like /auth
+              } else {
+                // optional: force navigation to discussions
+                router.push("/(drawer)/(tabs)/discussions");
+              }
+            },
+          })}
       />
       <Tabs.Screen 
         name="feed" 
@@ -197,6 +223,19 @@ const Layout = () => {
           title: "Feed", 
           tabBarIcon: ({ color, size }) => <Users color={color} size={size} /> 
         }} 
+          listeners={({ navigation }) => ({
+            tabPress: (e) => {
+              if (!isLoggedIn) {
+                e.preventDefault(); // stops default navigation
+                console.log("User not logged in, redirecting to login page");
+                setShowDialog(true);
+                return; // or any other screen like /auth
+              } else {
+                // optional: force navigation to discussions
+                router.push("/(drawer)/(tabs)/discussions");
+              }
+            },
+          })}
       />
       <Tabs.Screen 
         name="articles" 
@@ -214,6 +253,7 @@ const Layout = () => {
         }} 
       />
     </Tabs>
+    </>
   )
 }
 
