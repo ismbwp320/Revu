@@ -40,10 +40,7 @@ const ArticleCard: React.FC<Props> = ({
             ]}
           >
             <Text
-              style={[
-                styles.tagText,
-                { color: tag === "Featured" ? "#000" : "#fff" },
-              ]}
+              style={ styles.tagText }
             >
               {tag}
             </Text>
@@ -60,7 +57,7 @@ const ArticleCard: React.FC<Props> = ({
       <Text style={styles.title}>{title}</Text>
 
       {/* Description */}
-      <Text style={styles.description} numberOfLines={2}>
+      <Text style={styles.description} numberOfLines={3}>
         {description}
       </Text>
 
@@ -70,6 +67,7 @@ const ArticleCard: React.FC<Props> = ({
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>
               {author.charAt(0).toLowerCase()}
+              {author.charAt(1).toLowerCase()} 
             </Text>
           </View>
           <View>
@@ -101,8 +99,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: "hidden",
     elevation: 3,
-    marginVertical: 10,
-    marginHorizontal: 16,
+    marginVertical: 6,
+    marginHorizontal: 2,
   },
   image: {
     width: "100%",
@@ -112,7 +110,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 12,
-    paddingTop: 10,
+    paddingTop: 14,
     gap: 8,
   },
   tag: {
@@ -121,8 +119,9 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   tagText: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "600",
+    color: 'white',
   },
   dateRow: {
     flexDirection: "row",
@@ -139,22 +138,24 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#111827",
     marginHorizontal: 12,
-    marginTop: 6,
+    marginTop: 12,
+    lineHeight: 24,
   },
   description: {
     fontSize: 13,
     color: "#6B7280",
     marginHorizontal: 12,
-    marginTop: 4,
+    marginTop: 6,
     marginBottom: 8,
+    lineHeight: 18
   },
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 12,
     paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: "#E5E7EB",
+    // borderTopWidth: 1,
+    // borderColor: "#E5E7EB",
   },
   authorRow: {
     flexDirection: "row",
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: "#10B981",
-    fontWeight: "600",
+    fontWeight: "400",
     textTransform: "lowercase",
   },
   author: {

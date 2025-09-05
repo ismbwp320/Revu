@@ -227,8 +227,8 @@ export default function Articles() {
         <View className="flex-row items-center bg-white rounded-xl px-4 py-3 mb-4">
           <Search size={20} color="#6B7280" />
           <TextInput
-            placeholder="Search institutions, programs..."
-            className="flex-1 ml-3 text-gray-900 focus:outline-none"
+            placeholder="Search articles by title, description..."
+            className="flex-1 ml-3 text-gray-900 focus:outline-none"  
           />
 
           {/* <ArrowDown01 color="#6B7280" size={20} className='mr-2' /> */}
@@ -242,7 +242,7 @@ export default function Articles() {
             }
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Filter
               size={20}
               color="#6B7280"
@@ -252,12 +252,12 @@ export default function Articles() {
 
               }}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-        <MobileSidebarActionsheet
+        {/* <MobileSidebarActionsheet
           actionsheetVisible={actionsheetVisible}
           setActionsheetVisible={setActionsheetVisible}
-        />
+        /> */}
 
         {/* Quick Filters */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="max-h-24">
@@ -313,7 +313,7 @@ export default function Articles() {
             ))
           }
           {/* Pagination Buttons */}
-          <View className="flex-row justify-between items-center mt-4">
+          <View className="flex-row justify-between items-center mb-4 mt-2">
             <TouchableOpacity
               disabled={page === 1}
               onPress={() => setPage((prev) => Math.max(prev - 1, 1))}

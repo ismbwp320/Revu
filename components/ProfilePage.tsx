@@ -171,7 +171,7 @@ const LogoutButton = ({ setOpenLogoutAlertDialog }: any) => {
   };
   return (
     <>
-    <Button
+    {/* <Button
       action="secondary"
       variant="outline"
       // onPress={() => {
@@ -180,10 +180,10 @@ const LogoutButton = ({ setOpenLogoutAlertDialog }: any) => {
       onPress={handleLogout}
     >
       <ButtonText>Logout</ButtonText>
-    </Button>
-    {/* <Button onPress={handleLogout} className="bg-red-500 mt-4">
-      <ButtonText>Logout</ButtonText>
     </Button> */}
+    <Button onPress={handleLogout} className="bg-red-500">
+      <ButtonText>Logout</ButtonText>
+    </Button>
     </>
   );
 };

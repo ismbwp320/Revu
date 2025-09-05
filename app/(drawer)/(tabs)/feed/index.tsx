@@ -301,7 +301,7 @@ export default function Feed() {
             ))
           }
           {/* Pagination Buttons */}
-          <View className="flex-row justify-between items-center mt-4">
+          <View className="flex-row justify-between items-center mb-4">
             <TouchableOpacity
               disabled={page === 1}
               onPress={() => setPage((prev) => Math.max(prev - 1, 1))}
